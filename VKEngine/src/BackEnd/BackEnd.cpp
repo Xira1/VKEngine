@@ -15,6 +15,14 @@ namespace BackEnd {
 		return GLFWBase::WindowIsOpen();
 	}
 
+	void ToggleFullscreen() {
+		GLFWBase::ToggleFullscreen();
+	}
+
+	void SetWindowedMode(const WindowedMode& windowedMode) {
+		GLFWBase::SetWindowedMode(windowedMode);
+	}
+
 	float GetCurrentWindowWidth() {
 		return GLFWBase::GetCurrentWindowWidth();
 	}

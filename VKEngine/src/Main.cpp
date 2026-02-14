@@ -16,6 +16,9 @@ int main() {
 		if (Input::KeyPressed(GLFW_KEY_ESCAPE)) {
 			BackEnd::ForceWindowClose();
 		}
+		if (Input::KeyPressed(GLFW_KEY_F)) {
+			BackEnd::ToggleFullscreen();
+		}
 
 		glfwPollEvents();
 		VulkanBase::GetInstance()->DrawFrame();

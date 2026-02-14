@@ -8,6 +8,9 @@ namespace BackEnd {
 	void ForceWindowClose();
 	bool WindowIsOpen();
 
+	void ToggleFullscreen();
+	void SetWindowedMode(const WindowedMode& windowedMode);
+
 	float GetCurrentWindowWidth();
 	float GetCurrentWindowHeight();
 

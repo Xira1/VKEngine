@@ -164,6 +164,7 @@
     <ClInclude Include="src\BackEnd\BackEnd.h" />
     <ClInclude Include="src\BackEnd\GLFWBase.h" />
     <ClInclude Include="src\Config\Config.h" />
+    <ClInclude Include="src\Config\Enums.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Util\Utils.hpp" />
   </ItemGroup>

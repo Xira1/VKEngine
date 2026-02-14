@@ -5,6 +5,7 @@
 namespace GLFWBase {
 	GLFWwindow* g_window;
 	GLFWmonitor* g_monitor;
+	WindowedMode g_windowedMode;
 	const GLFWvidmode* g_mode;
 	bool g_forceWindowClose = false;
 	GLuint g_currentWindowWidth = 0;
@@ -41,6 +42,9 @@ namespace GLFWBase {
 		glfwSetWindowPos(g_window, 0, 0);
 		glfwSetInputMode(g_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+		ToggleFullscreen();
+		ToggleFullscreen();
+
 		return true;
 	}
 
@@ -50,6 +54,32 @@ namespace GLFWBase {
 
 	bool WindowIsOpen() {
 		return !(glfwWindowShouldClose(g_window) || g_forceWindowClose);
+	}
+
+	void ToggleFullscreen() {
+		if (g_windowedMode == WindowedMode::WINDOWED) {
+			SetWindowedMode(WindowedMode::FULLSCREEN);
+		}
+		else {
+			SetWindowedMode(WindowedMode::WINDOWED);
+		}
+	}
+
+	void SetWindowedMode(const WindowedMode& windowedMode) {
+		if (windowedMode == WindowedMode::WINDOWED) {
+			g_currentWindowWidth = g_windowedWidth;
+			g_currentWindowHeight = g_windowedHeight;
+			glfwSetWindowMonitor(g_window, nullptr, 0, 0, g_windowedWidth, g_windowedHeight, g_mode->refreshRate);
+			glfwSetWindowPos(g_window, 0, 0);
+		}
+
+
+		if (windowedMode == WindowedMode::FULLSCREEN) {
+			g_currentWindowWidth = g_fullscreenWidth;
+			g_currentWindowHeight = g_fullscreenHeight;
+			glfwSetWindowMonitor(g_window, g_monitor, 0, 0, g_fullscreenWidth, g_fullscreenHeight, g_mode->refreshRate);
+		}
+		g_windowedMode = windowedMode;
 	}
 
 	float GetCurrentWindowWidth() {

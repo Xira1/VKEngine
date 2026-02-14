@@ -2,6 +2,7 @@
 
 #include "vk_device_manager.h"
 #include "vk_instance_manager.h"
+#include "vk_pipeline_manager.h"
 
 #include "BackEnd.h"
 
@@ -21,13 +22,30 @@ namespace VulkanSwapchainManager {
 	}
 
 	void RecreateSwapchain() {
+		VkDevice device = VulkanDeviceManager::GetDevice();
+
+		int width = 0, height = 0;
+		glfwGetFramebufferSize(BackEnd::GetWindowPointer(), &width, &height);
+		while (width == 0 || height == 0) {
+			glfwGetFramebufferSize(BackEnd::GetWindowPointer(), &width, &height);
+			glfwWaitEvents();
+		}
+
 		vkDeviceWaitIdle(VulkanDeviceManager::GetDevice());
 
 		// Clean up old resources
-		CleanUp();
+		for (VkFramebuffer framebuffer : VulkanPipelineManager::GetFramebuffers()) {
+			vkDestroyFramebuffer(device, framebuffer, nullptr);
+		}
+
+		for (VkImageView imageViews : g_swapchainImageViews) {
+			vkDestroyImageView(device, imageViews, nullptr);
+		}
+		vkDestroySwapchainKHR(device, g_swapchain, nullptr);
 
 		// Recreate
 		CreateSwapchain();
+		VulkanPipelineManager::InitFramebuffers();
 		std::cout << "VulkanSwapchainManager::RecreateSwapchain()\n";
 	}
 
